@@ -1,20 +1,84 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Buy Me a Coffee Clone
 
-# Run and deploy your AI Studio app
+A beautifully designed, minimalistic web application built with Next.js that allows users to receive support and payments from their audience through various UPI apps.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/7c5dc052-8eb1-4398-a0df-edcafb390b04
+- Clean and modern user interface
+- Custom payment amount selection
+- QR code generation for quick UPI payments
+- Direct deep links to popular UPI applications (Google Pay, PhonePe, Paytm)
+- Responsive design tailored for both mobile and desktop experiences
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+- **Framework**: Next.js 15
+- **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
+- **QR Code**: qrcode.react
+- **Fonts**: Manrope (Google Fonts)
 
+## Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Follow these instructions to get a copy of the project up and running on your local machine.
+
+### Prerequisites
+
+Ensure you have Node.js (version 20 or higher) installed on your system.
+
+### Installation
+
+1. Clone the repository to your local machine:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd Buy-me-a-coffee
+   ```
+
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the Development Server
+
+Start the development server with the following command:
+
+```bash
+npm run dev
+```
+
+Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
+## Project Structure
+
+- `app/` - Contains the main Next.js application routes and layouts
+- `lib/` - Utility functions and helpers
+- `hooks/` - Custom React hooks
+- `public/` - Static assets like images and icons
+
+## Configuration
+
+You can customize the recipient's UPI ID and details in `app/page.tsx` by updating the following variables inside the `Home` component:
+
+```typescript
+const upiId = 'your_upi_id@upi';
+const payeeName = 'Your Name';
+```
+
+## Building for Production
+
+To create an optimized production build, run:
+
+```bash
+npm run build
+```
+
+After a successful build, you can start the production server with:
+
+```bash
+npm run start
+```
