@@ -1,0 +1,5 @@
+{
+  "name": "Buy Me a Coffee (UPI)",
+  "description": "A creator support page with dynamic UPI QR code generation and payment app links.",
+  "requestFramePermissions": []
+}
