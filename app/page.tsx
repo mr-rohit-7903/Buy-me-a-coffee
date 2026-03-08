@@ -11,19 +11,20 @@ import {
   ArrowRight,
   Globe
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const socialLinks = [
-  { icon: Globe, label: 'Portfolio', isComponent: true },
-  { icon: '/icons/github.svg', label: 'GitHub', isComponent: false },
-  { icon: '/icons/linkedin.png', label: 'LinkedIn', isComponent: false },
-  { icon: '/icons/instagram.svg', label: 'Instagram', isComponent: false },
+  { icon: Globe, label: 'Portfolio', isComponent: true, href: 'https://mr-rohit-7903.github.io/Portfolio-Final/' },
+  { icon: '/icons/github.svg', label: 'GitHub', isComponent: false, href: 'https://github.com/mr-rohit-7903' },
+  { icon: '/icons/linkedin.png', label: 'LinkedIn', isComponent: false, href: 'https://www.linkedin.com/in/mr-rohit-/' },
+  { icon: '/icons/instagram.svg', label: 'Instagram', isComponent: false, href: 'https://www.instagram.com/imrohitbej/' },
 ];
 
 export default function Home() {
-  const [amount, setAmount] = useState<string>('15');
+  const [amount, setAmount] = useState<string>('500');
 
-  const upiId = 'userupi@upi';
-  const payeeName = 'Alex Rivers';
+  const upiId = 'rohit098bej-2@oksbi';
+  const payeeName = 'Rohit Bej';
 
   const amt = parseFloat(amount);
   const validAmount = isNaN(amt) || amt <= 0 ? '' : `&am=${amt.toFixed(2)}`;
@@ -78,37 +79,51 @@ export default function Home() {
           <div className="w-full max-w-[640px] flex flex-col gap-8">
 
             {/* Profile Section */}
-            <div className="flex flex-col items-center text-center gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="flex flex-col items-center text-center gap-4"
+            >
               <div className="relative">
-                <div className="w-48 h-48 rounded-full border-4 border-white shadow-xl overflow-hidden relative">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="w-48 h-48 rounded-full border-4 border-white shadow-xl overflow-hidden relative"
+                >
                   <Image
                     src="/images/profile/Hero.jpeg"
-                    alt="Alex Rivers"
+                    alt="Rohit Bej"
                     fill
                     className="object-cover"
                     referrerPolicy="no-referrer"
                   />
-                </div>
+                </motion.div>
               </div>
 
               <div className="flex flex-col items-center gap-2">
-                <h1 className="text-3xl font-extrabold tracking-tight">Alex Rivers</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight">Rohit Bej</h1>
                 <p className="text-[#6B7280] text-base max-w-md">
-                  Crafting meaningful digital experiences through open-source software. Every coffee fuels the next big update.
+                  Mechanical Engineering undergraduate at IIT Kharagpur who enjoys building software. Exploring the intersection of full-stack development, AI, automation, and system design.
                 </p>
                 <div className="flex items-center gap-1.5 text-[#6B7280] text-sm mt-1">
                   <MapPin className="w-4 h-4" />
-                  <span>Based in Seattle, WA</span>
+                  <span>Based in Jamshedpur, India</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Social Links */}
-            <div className="grid grid-cols-4 gap-4 py-6 border-y border-[#FFDD00]/20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+              className="grid grid-cols-4 gap-4 py-6 border-y border-[#FFDD00]/20"
+            >
               {socialLinks.map((social, idx) => {
                 const IconComponent = social.isComponent ? social.icon as React.ElementType : null;
                 return (
-                  <a key={idx} href="#" className="flex flex-col items-center gap-2 group">
+                  <a key={idx} href={social.href} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
                     <div className="p-3 rounded-full bg-[#FFDD00]/10 group-hover:bg-[#FFDD00] transition-colors duration-300 flex items-center justify-center w-12 h-12">
                       {social.isComponent && IconComponent ? (
                         <IconComponent className="w-5 h-5 text-[#111111]" />
@@ -120,10 +135,15 @@ export default function Home() {
                   </a>
                 );
               })}
-            </div>
+            </motion.div>
 
             {/* Send Support Card */}
-            <div className="bg-white rounded-2xl shadow-sm border border-[#FFDD00]/20 p-6 flex flex-col gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+              className="bg-white rounded-2xl shadow-sm border border-[#FFDD00]/20 p-6 flex flex-col gap-6"
+            >
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <Coffee className="w-6 h-6 text-[#FFDD00] fill-[#FFDD00]" />
@@ -133,7 +153,7 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                {[5, 15, 25].map((amt) => (
+                {[500, 1000, 1500].map((amt) => (
                   <button
                     key={amt}
                     onClick={() => handleAmountClick(amt.toString())}
@@ -158,14 +178,23 @@ export default function Home() {
                 />
               </div>
 
-              <button className="w-full bg-[#FFDD00] hover:bg-[#F2D100] text-[#111111] font-extrabold py-4 rounded-xl shadow-lg shadow-[#FFDD00]/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-[#FFDD00] hover:bg-[#F2D100] text-[#111111] font-extrabold py-4 rounded-xl shadow-lg shadow-[#FFDD00]/30 flex items-center justify-center gap-2 transition-all"
+              >
                 <span>Proceed to Payment</span>
                 <ArrowRight className="w-5 h-5 font-bold" />
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* QR Code & UPI Apps */}
-            <div className="bg-[#F5F5F5] rounded-2xl p-8 flex flex-col items-center gap-6 border border-dashed border-[#FFDD00]/40">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
+              className="bg-[#F5F5F5] rounded-2xl p-8 flex flex-col items-center gap-6 border border-dashed border-[#FFDD00]/40"
+            >
               <div className="text-center space-y-4">
                 <p className="text-xs font-black uppercase tracking-widest">Scan to Pay</p>
                 <div className="bg-white p-4 rounded-xl inline-block shadow-sm">
@@ -209,11 +238,11 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <footer className="mt-8 pt-6 border-t border-black/5 text-center pb-8 flex flex-col gap-2">
               <p className="text-[#9CA3AF] text-xs">
-                &copy; {new Date().getFullYear()} Alex Rivers. All rights reserved.
+                &copy; {new Date().getFullYear()} Rohit Bej. All rights reserved.
               </p>
             </footer>
           </div>
