@@ -27,6 +27,7 @@ export default function Home() {
   const [amount, setAmount] = useState<string>('500');
   const [copied, setCopied] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
   const shareMenuRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +38,15 @@ export default function Home() {
   const validAmount = isNaN(amt) || amt <= 0 ? '' : `&am=${amt.toFixed(2)}`;
   const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&cu=INR${validAmount}`;
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleAmountClick = (val: string) => {
     setAmount(val);
   };
@@ -45,19 +55,33 @@ export default function Home() {
     setAmount(e.target.value);
   };
 
-  const openUpiApp = (app: string) => {
-    let url = '';
-    // For demonstration purposes, using placeholder links to their respective websites
-    // In a real mobile environment, these would be deep links (e.g., tez://, phonepe://)
-    if (app === 'gpay') {
-      url = `https://pay.google.com/about/?amount=${amount}`;
-    } else if (app === 'phonepe') {
-      url = `https://www.phonepe.com/?amount=${amount}`;
-    } else if (app === 'paytm') {
-      url = `https://paytm.com/?amount=${amount}`;
+  const openUpiApp = (app?: 'gpay' | 'phonepe' | 'paytm') => {
+    if (!isMobile) {
+      scrollToQR();
+      return;
     }
 
-    window.open(url, '_blank');
+    const packages = {
+      gpay: 'com.google.android.apps.nbu.paisa.user',
+      phonepe: 'com.phonepe.app',
+      paytm: 'net.one97.paytm'
+    };
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (app && isAndroid) {
+      // Use Android Intent to target specific apps with Play Store fallback
+      const packageName = packages[app];
+      // Extract parameters from upiUrl starting after 'upi://pay'
+      const params = upiUrl.split('upi://pay')[1];
+      const intentUrl = `intent://pay${params}#Intent;scheme=upi;package=${packageName};S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=' + packageName)};end`;
+
+      window.location.assign(intentUrl);
+    } else {
+      // Generic deep link for iOS or when no specific app is selected
+      // This will open the system's payment app chooser
+      window.location.assign(upiUrl);
+    }
   };
 
   const deploymentUrl = 'https://buy-me-a-coffee-peach.vercel.app/';
@@ -286,12 +310,12 @@ export default function Home() {
               </div>
 
               <motion.button
-                onClick={scrollToQR}
+                onClick={() => isMobile ? openUpiApp() : scrollToQR()}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-[#FFDD00] hover:bg-[#F2D100] text-[#111111] font-extrabold py-4 rounded-xl shadow-lg shadow-[#FFDD00]/30 flex items-center justify-center gap-2 transition-all"
               >
-                <span>Proceed to Payment</span>
+                <span>{isMobile ? 'Pay Now via UPI' : 'Proceed to Payment'}</span>
                 <ArrowRight className="w-5 h-5 font-bold" />
               </motion.button>
             </motion.div>
